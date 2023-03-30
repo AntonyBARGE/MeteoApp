@@ -51,6 +51,15 @@ dependencies:
   # dateformat and more
   intl: ^0.18.0
 
+  # for customized theme
+  flex_color_scheme: ^7.0.0-dev.3
+
+  # for service locator, container and injections
+  get_it: ^7.2.0
+
+  # for routing
+  auto_route: ^6.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +76,9 @@ dev_dependencies:
 
   # to generate mocks from annotations
   build_runner: ^2.3.3
+
+  # to generate routes for auto_route
+  auto_route_generator: ^6.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
