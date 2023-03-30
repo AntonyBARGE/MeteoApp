@@ -42,6 +42,15 @@ dependencies:
   # for value equalities
   equatable: ^2.0.5
 
+  # for communication with online API : "Weather Forecast API" from Open-Meteo
+  http: ^0.13.5
+
+  # to verify if there is an internet connection
+  internet_connection_checker: ^1.0.0+1
+
+  # dateformat and more
+  intl: ^0.18.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,6 +64,9 @@ dev_dependencies:
 
   # for test mocks
   mockito: ^5.4.0
+
+  # to generate mocks from annotations
+  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
