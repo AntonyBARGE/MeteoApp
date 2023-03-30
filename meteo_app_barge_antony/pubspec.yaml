@@ -60,6 +60,9 @@ dependencies:
   # for routing
   auto_route: ^6.0.4
 
+  # for state management
+  provider: ^6.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

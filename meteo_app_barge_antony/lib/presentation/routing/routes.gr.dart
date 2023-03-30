@@ -13,9 +13,9 @@ import 'package:flutter/material.dart' as _i5;
 import 'package:meteo_app_barge_antony/presentation/ui/views/currentWeatherPage.dart'
     as _i1;
 import 'package:meteo_app_barge_antony/presentation/ui/views/homePage.dart'
-    as _i3;
-import 'package:meteo_app_barge_antony/presentation/ui/views/somewhereWeatherPage.dart'
     as _i2;
+import 'package:meteo_app_barge_antony/presentation/ui/views/somewhereWeatherPage.dart'
+    as _i3;
 
 abstract class $AppRouter extends _i4.RootStackRouter {
   $AppRouter([_i5.GlobalKey<_i5.NavigatorState>? navigatorKey])
@@ -29,16 +29,16 @@ abstract class $AppRouter extends _i4.RootStackRouter {
         child: const _i1.CurrentWeatherPage(),
       );
     },
-    SomewhereWeatherRoute.name: (routeData) {
-      return _i4.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i2.SomewhereWeatherPage(),
-      );
-    },
     HomeRoute.name: (routeData) {
       return _i4.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.HomePage(),
+        child: const _i2.HomePage(),
+      );
+    },
+    SomewhereWeatherRoute.name: (routeData) {
+      return _i4.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.SomewhereWeatherPage(),
       );
     },
   };
@@ -59,21 +59,7 @@ class CurrentWeatherRoute extends _i4.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.SomewhereWeatherPage]
-class SomewhereWeatherRoute extends _i4.PageRouteInfo<void> {
-  const SomewhereWeatherRoute({List<_i4.PageRouteInfo>? children})
-      : super(
-          SomewhereWeatherRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SomewhereWeatherRoute';
-
-  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i3.HomePage]
+/// [_i2.HomePage]
 class HomeRoute extends _i4.PageRouteInfo<void> {
   const HomeRoute({List<_i4.PageRouteInfo>? children})
       : super(
@@ -82,6 +68,20 @@ class HomeRoute extends _i4.PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.SomewhereWeatherPage]
+class SomewhereWeatherRoute extends _i4.PageRouteInfo<void> {
+  const SomewhereWeatherRoute({List<_i4.PageRouteInfo>? children})
+      : super(
+          SomewhereWeatherRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SomewhereWeatherRoute';
 
   static const _i4.PageInfo<void> page = _i4.PageInfo<void>(name);
 }
