@@ -1,16 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-abstract class WeatherEvent extends Equatable {
-  const WeatherEvent();
+import '../../data/models/weather.dart';
+
+abstract class WeatherState extends Equatable {
+  const WeatherState();
 
   @override
   List<Object> get props => [];
 }
 
-class GetWeatherForLatAndLon extends WeatherEvent {
-  final String latitudeString;
-  final String longitudeString;
-  final String dayString;
+class Empty extends WeatherState {}
 
-  const GetWeatherForLatAndLon(this.latitudeString, this.longitudeString, this.dayString);
+class Loading extends WeatherState {}
+
+class Loaded extends WeatherState {
+  final Weather weather;
+
+  const Loaded({required this.weather});
+}
+
+class Error extends WeatherState {
+  final String message;
+
+  const Error({required this.message});
 }
