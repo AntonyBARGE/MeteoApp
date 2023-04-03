@@ -30,7 +30,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
         return Left(ServerFailure());
       }
     } else {
-      return Left(ServerFailure());
+      return Left(InternetFailure());
     }
   }
 }

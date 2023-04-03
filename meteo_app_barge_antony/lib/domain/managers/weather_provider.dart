@@ -8,7 +8,7 @@ import '../states/weather_state.dart';
 import '../events/weather_event.dart';
 
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
-const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
+const String INTERNET_FAILURE_MESSAGE = 'Server Failure : Please verify your internet connection';
 const String INVALID_LATITUDE_OR_LONGITUDE_INPUT_FAILURE_MESSAGE =
     'Invalid Input - The number must be between -90° and 90°.';
 const String INVALID_DAY_INPUT_FAILURE_MESSAGE =
@@ -26,13 +26,7 @@ class WeatherProvider extends ChangeNotifier {
   WeatherProvider({
     required this.getWeather,
     required this.inputConverter,
-  }) {
-    verifyInputThenCall(
-      getWeatherForLatAndLon.latitudeString, 
-      getWeatherForLatAndLon.longitudeString, 
-      getWeatherForLatAndLon.dayString
-    );
-  }
+  });
 
   void verifyInputThenCall(String inputLat, String inputLong, String inputDay) {
     final inputLatEither = inputConverter.stringToDouble(inputLat);
@@ -95,6 +89,8 @@ class WeatherProvider extends ChangeNotifier {
 
 String _mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
+    case InternetFailure:
+      return INTERNET_FAILURE_MESSAGE;
     case ServerFailure:
       return SERVER_FAILURE_MESSAGE;
     default:
