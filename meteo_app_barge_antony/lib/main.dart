@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:meteo_app_barge_antony/presentation/ui/styles/constants.dart';
 import 'application/injections/injection.dart' as injections;
 import 'presentation/routing/routes.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await injections.init();
+  initializeDateFormatting();
   runApp(const MyApp());
 }
 
 final _appRouter = AppRouter();
-final FlexSchemeColor _schemeLight = FlexSchemeColor.from(
-  primary: const Color(0xff6b9dfc),
-  secondary: const Color(0xffa1c6fd),
-  brightness: Brightness.light,
-);
-const FlexSubThemesData _subThemesData = FlexSubThemesData();
+final Constants constants = Constants();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp.router(
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      // The Mandy red, light theme.
-      theme: FlexThemeData.light(
-        colors: _schemeLight,
-        subThemesData: _subThemesData
-      ),
-      // The Mandy red, dark theme.
-      darkTheme: FlexThemeData.dark(colors: _schemeLight.toDark(30, true)),
-      // Use dark or light theme based on system setting.
+      
+      theme: constants.lightTheme,
+      darkTheme: constants.darkTheme,
       themeMode: ThemeMode.system,
     );
   }

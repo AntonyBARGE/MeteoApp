@@ -16,7 +16,6 @@ class InputConverter {
 
   Either<Failure, DateTime> stringToDateTime(String string) {
     try {
-      //TODO: get correct datetime : out of range (out of 2022-06-08 to two weeks after current day )'
       final inputConvertedToDateTime = DateTime.parse(string);
       final bool isInputConvertedToDateTimeValid = 
         !(inputConvertedToDateTime.compareTo(noDataBeforeThisDay) > 0)

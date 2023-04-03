@@ -36,27 +36,23 @@ class WeatherProvider extends ChangeNotifier {
     inputLatEither.fold(
       (failure) {
         weatherState = const Error(message: INVALID_LATITUDE_OR_LONGITUDE_INPUT_FAILURE_MESSAGE);
-        print("notify Listener");
         notifyListeners();
       }, 
       (verifiedLatitudeDouble) {
         inputLongEither.fold(
           (failure) {
             weatherState = const Error(message: INVALID_LATITUDE_OR_LONGITUDE_INPUT_FAILURE_MESSAGE);
-            print("notify Listener");
-        notifyListeners();
+            notifyListeners();
           }, 
           (verifiedLongitudeDouble) {
             inputDayEither.fold(
               (failure) {
                 weatherState = const Error(message: INVALID_DAY_INPUT_FAILURE_MESSAGE);
-                print("notify Listener");
-        notifyListeners();
+                notifyListeners();
               }, 
               (verifiedDayDateTime) {
                 weatherState = Loading();
-                print("notify Listener");
-        notifyListeners();
+                notifyListeners();
                 changeWeather(verifiedLatitudeDouble, verifiedLongitudeDouble, verifiedDayDateTime);
               }
             );
@@ -76,12 +72,10 @@ class WeatherProvider extends ChangeNotifier {
     failureOrWeather!.fold(
       (failure) {
         weatherState = Error(message: _mapFailureToMessage(failure));
-        print("notify Listener");
         notifyListeners();
       }, 
       (weather) {
         weatherState = Loaded(weather: weather);
-        print("notify Listener");
         notifyListeners();
       });
   }
