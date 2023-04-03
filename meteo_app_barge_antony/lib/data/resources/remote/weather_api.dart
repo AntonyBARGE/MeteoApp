@@ -17,6 +17,7 @@ class WeatherAPIImpl implements WeatherAPI {
   WeatherAPIImpl({required this.client});
 
   Future<Weather> _getWeatherFromUrl(String url) async {
+    print(url);
     final response = await client
         .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
@@ -28,7 +29,7 @@ class WeatherAPIImpl implements WeatherAPI {
 
   @override
   Future<Weather>? getWeather(City city, DateTime day) {
-    final df = DateFormat('yyyy-mm-dd');
+    final df = DateFormat('yyyy-MM-dd');
     final dayInUrl = df.format(day);
     final endDayInUrl = df.format(day.add(const Duration(days: 7)));
     String weatherAPIUrl = 'https://api.open-meteo.com/v1/forecast?';
