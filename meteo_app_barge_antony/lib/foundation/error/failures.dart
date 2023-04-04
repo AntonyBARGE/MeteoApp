@@ -13,3 +13,8 @@ class InternetFailure extends ServerFailure {
   @override
   List<Object?> get props => [];
 }
+
+class LocationFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}

@@ -17,7 +17,6 @@ class WeatherAPIImpl implements WeatherAPI {
   WeatherAPIImpl({required this.client});
 
   Future<Weather> _getWeatherFromUrl(String url) async {
-    print(url);
     final response = await client
         .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {

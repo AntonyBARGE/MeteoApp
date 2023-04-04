@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meteo_app_barge_antony/domain/managers/weather_provider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../domain/events/weather_event.dart';
+import '../../../../domain/managers/weather_provider.dart';
+import '../../../../foundation/util/input_converter.dart';
+import '../../styles/constants.dart';
 
 
 class WeatherControls extends StatefulWidget {
@@ -17,70 +22,101 @@ class _WeatherControlsState extends State<WeatherControls> {
   final longitudeController = TextEditingController();
   late String inputLatitudeStr;
   late String inputLongitudeStr;
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    DateFormat df = DateFormat.yMMMMd('fr') ;
+    
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: latitudeController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Latitude',
-                ),
-                onChanged: (newLatitude) {
-                  inputLatitudeStr = newLatitude;
-                },
-                onSubmitted:  (_) {
-                  print("todo");
-                },
-              )
-            ),
-            Container(width: 20),
-            Expanded(
-              child: TextField(
-                controller: longitudeController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Longitude',
-                ),
-                onChanged: (newLongitude) {
-                  inputLongitudeStr = newLongitude;
-                },
-                onSubmitted:  (_) {
-                  print("todo");
-                },
-              )
-            )
-          ]
-        ),
+        Divider(color: Constants().lightTheme.secondaryHeaderColor, thickness: 3.0,),
         const SizedBox(height: 10),
         Row(
           children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: getWeatherOnline,
-                child: const Text('Search'),
-              ),
-            ),
-            const SizedBox(width: 10),
-          ],
-        )
+            latFormField(),
+            const SizedBox(width: 20),
+            longFormField(),
+            datePicker(df),
+          ]
+        ),
+        const SizedBox(height: 10),
+        searchButton(),
       ],
     );
   }
+  
+  Widget latFormField() => Expanded(
+    child: TextField(
+      controller: latitudeController,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: 'Latitude',
+      ),
+      onChanged: (newLatitude) {
+        inputLatitudeStr = newLatitude;
+      },
+    )
+  );
+  
+  Widget longFormField() => Expanded(
+    child: TextField(
+      controller: longitudeController,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: 'Longitude',
+      ),
+      onChanged: (newLongitude) {
+        inputLongitudeStr = newLongitude;
+      },
+    )
+  );
+  
+  Widget datePicker(DateFormat df) => Expanded(
+    child: Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(df.format(selectedDate)),
+          ElevatedButton(
+            onPressed: () => selectDate(context),
+            child: const Icon(Icons.calendar_month, color: Colors.white,),
+          ),
+        ],
+      ),
+    )
+  );
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: noDataBeforeThisDay,
+      lastDate: DateTime.now().add(const Duration(days: 14))
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+  
+  Widget searchButton() => Row(
+    children: [
+      Expanded(
+        child: ElevatedButton(
+          onPressed: getWeatherOnline,
+          child: const Text('Search'),
+        ),
+      )
+    ]
+  );
 
   void getWeatherOnline() {
     var provider = context.read<WeatherProvider>();
-    var inputs = provider.getWeatherForLatAndLon;
-    String lat = inputs.latitudeString;
-    String long = inputs.longitudeString;
-    String day = inputs.dayString;
-    provider.verifyInputThenCall(lat, long, day);
+    var inputs = GetWeatherForLatAndLon(inputLatitudeStr, inputLongitudeStr, selectedDate.toString());
+    provider.verifyInputThenCall(inputs);
   }
 }

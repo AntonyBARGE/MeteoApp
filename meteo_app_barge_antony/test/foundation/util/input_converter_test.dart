@@ -15,8 +15,9 @@ void main() {
         () async {
       //arrange
       const str = '4.8799996';
+      const maxValue = 180.0;
       //act
-      final result = inputConverter.stringToDouble(str);
+      final result = inputConverter.stringToDouble(str, maxValue);
       //assert
       expect(result, equals(const Right(4.8799996)));
     });
@@ -24,18 +25,20 @@ void main() {
     test('should return a Failure when the string is not a number', () async {
       //arrange
       const str = 'abc';
+      const maxValue = 180.0;
       //act
-      final result = inputConverter.stringToDouble(str);
+      final result = inputConverter.stringToDouble(str, maxValue);
       //assert
       expect(result, equals(Left(InvalidInputFailure())));
     });
 
-    test('should return a Failure when the string is a number out of range (out of -90° to 90°)',
+    test('should return a Failure when the string is a number out of range',
         () async {
       //arrange
       const str = '-123';
+      const maxValue = 90.0;
       //act
-      final result = inputConverter.stringToDouble(str);
+      final result = inputConverter.stringToDouble(str, maxValue);
       //assert
       expect(result, equals(Left(InvalidInputFailure())));
     });
