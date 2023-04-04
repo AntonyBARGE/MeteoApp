@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -36,8 +37,10 @@ class LocationServiceImpl implements LocationService {
 
   @override
   Future<City> getCityFromName(String cityName) async {
-    List<Location> locations = await locationFromAddress(cityName);
-    if (locations.isEmpty){
+    List<Location> locations;
+    try {
+      locations = await locationFromAddress(cityName);
+    } on PlatformException  {
       throw LocationException();
     }
     var city = locations.first;
@@ -50,12 +53,18 @@ class LocationServiceImpl implements LocationService {
 
   @override
   Future<City> getCityFromLatLong(double latitude, double longitude) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
-    if (placemarks.isEmpty){
+    List<Placemark> placemarks;
+    try {
+      placemarks = await placemarkFromCoordinates(latitude, longitude);
+    } on PlatformException  {
       throw LocationException();
     }
+    String? cityName = placemarks.first.locality;
+    if (cityName == null || cityName == ''){
+      cityName = 'Nowhere';
+    }
     return City(
-      cityName: placemarks.first.locality ?? 'Nowhere', 
+      cityName: cityName, 
       latitude: latitude,
       longitude: longitude
     );
