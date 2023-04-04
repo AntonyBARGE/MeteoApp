@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:meteo_app_barge_antony/domain/use_cases/get_current_location.dart';
 
 import '../../foundation/error/failures.dart';
 import '../../foundation/util/input_converter.dart';
+import '../entities/city.dart';
 import '../states/weather_state.dart';
 import '../events/weather_event.dart';
 import '../use_cases/get_city_from_lat_long.dart';
 import '../use_cases/get_weather.dart';
+import '../use_cases/usecase.dart';
 
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 const String INTERNET_FAILURE_MESSAGE = 'Server Failure : Please verify your internet connection';
@@ -20,6 +23,7 @@ const String LOCATION_FAILURE_MESSAGE = 'Location Failure';
 class WeatherProvider extends ChangeNotifier {
   final GetWeather getWeather;
   final GetCityFromLatLong getCityFromLatLong;
+  final GetCurrentLocation getCurrentLocation;
   final InputConverter inputConverter;
   WeatherState weatherState = Empty();
 
@@ -28,10 +32,26 @@ class WeatherProvider extends ChangeNotifier {
   WeatherProvider({
     required this.getWeather,
     required this.getCityFromLatLong,
+    required this.getCurrentLocation,
     required this.inputConverter,
   });
 
+  void changeWeatherFromCity(City city, DateTime date) async {
+    final failureOrWeather = await getWeather(Params(city: city, day: date));
+    failureOrWeather!.fold(
+      (failure) {
+        weatherState = Error(message: _mapFailureToMessage(failure));
+        notifyListeners();
+      }, 
+      (weather) {
+        weatherState = Loaded(weather: weather, city: city);
+        notifyListeners();
+      });
+  }
+
   void verifyInputThenCall(GetWeatherForLatAndLon inputs) {
+    weatherState = Loading();
+    notifyListeners();
     final inputLatEither = inputConverter.latStringToDouble(inputs.latitudeString);
     final inputLongEither = inputConverter.longStringToDouble(inputs.longitudeString);
     final inputDayEither = inputConverter.stringToDateTime(inputs.dayString);
@@ -54,9 +74,7 @@ class WeatherProvider extends ChangeNotifier {
                 notifyListeners();
               }, 
               (verifiedDayDateTime) {
-                weatherState = Loading();
-                notifyListeners();
-                changeWeather(verifiedLatitudeDouble, verifiedLongitudeDouble, verifiedDayDateTime);
+                verifyCityThenCall(verifiedLatitudeDouble, verifiedLongitudeDouble, verifiedDayDateTime);
               }
             );
           }
@@ -65,7 +83,7 @@ class WeatherProvider extends ChangeNotifier {
     );
   }
 
-  void changeWeather(double verifiedLatitudeDouble, double verifiedLongitudeDouble, DateTime verifiedDayDateTime) async {
+  void verifyCityThenCall(double verifiedLatitudeDouble, double verifiedLongitudeDouble, DateTime verifiedDayDateTime) async {
     final failureOrCity = await getCityFromLatLong(LocationParams(latitude: verifiedLatitudeDouble, longitude: verifiedLongitudeDouble));
     failureOrCity!.fold(
       (failure) {
@@ -73,18 +91,24 @@ class WeatherProvider extends ChangeNotifier {
         notifyListeners();
       }, 
       (city) async {
-        final failureOrWeather = await getWeather(Params(city: city, day: verifiedDayDateTime));
-        failureOrWeather!.fold(
-          (failure) {
-            weatherState = Error(message: _mapFailureToMessage(failure));
-            notifyListeners();
-          }, 
-          (weather) {
-            weatherState = Loaded(weather: weather, city: city);
-            notifyListeners();
-          });
+        changeWeatherFromCity(city, verifiedDayDateTime);
       });
   }
+
+  void getCurrentCityThenCall() async {
+    weatherState = Loading();
+    notifyListeners();
+    final failureOrCity = await getCurrentLocation(NoParams());
+    failureOrCity!.fold(
+      (failure) {
+        weatherState = Error(message: _mapFailureToMessage(failure));
+        notifyListeners();
+      }, 
+      (city) async {
+        changeWeatherFromCity(city, DateTime.now());
+      });
+  }
+
 }
 
 String _mapFailureToMessage(Failure failure) {

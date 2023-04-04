@@ -25,7 +25,7 @@ class LocationServiceImpl implements LocationService {
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+        if (permission != LocationPermission.denied || permission != LocationPermission.deniedForever) {
           final Position currentPosition = await Geolocator.getCurrentPosition();
           final City currentCity = await getCurrentCityFromPosition(currentPosition);
           return currentCity;

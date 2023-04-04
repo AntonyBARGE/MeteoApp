@@ -22,6 +22,7 @@ Future<void> init() async {
   serviceLocator.registerFactory(() => WeatherProvider(
       getWeather: serviceLocator(),
       getCityFromLatLong: serviceLocator(),
+      getCurrentLocation: serviceLocator(),
       inputConverter: serviceLocator(),
   ));
 
