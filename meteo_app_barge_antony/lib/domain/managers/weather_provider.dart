@@ -80,7 +80,7 @@ class WeatherProvider extends ChangeNotifier {
             notifyListeners();
           }, 
           (weather) {
-            weatherState = Loaded(weather: weather);
+            weatherState = Loaded(weather: weather, city: city);
             notifyListeners();
           });
       });

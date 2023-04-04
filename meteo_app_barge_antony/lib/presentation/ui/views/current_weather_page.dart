@@ -39,7 +39,7 @@ class CurrentWeatherPage extends StatelessWidget {
                   } else if (state is Loading) {
                     return const LoadingWidget();
                   } else if (state is Loaded) {
-                    return WeatherDisplay(weather: state.weather);
+                    return WeatherDisplay(weather: state.weather, city: state.city);
                   } else if (state is Error) {
                     return MessageDisplay(message: state.message);
                   }

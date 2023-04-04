@@ -4,13 +4,15 @@ import 'package:meteo_app_barge_antony/domain/entities/hourly_weather.dart';
 import '../../../data/models/weather.dart';
 import 'package:flutter/material.dart';
 
+import '../../../domain/entities/city.dart';
 import '../../../foundation/util/utils.dart';
 import '../styles/constants.dart';
 import 'weather_item.dart';
 
 class WeatherDisplay extends StatelessWidget {
   final Weather weather;
-  const WeatherDisplay({Key? key, required this.weather}) : super(key: key);
+  final City city;
+  const WeatherDisplay({Key? key, required this.weather, required this.city}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class WeatherDisplay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.location_on, color: Colors.white, size: 24.0,),
-          Text('Nom de la ville',
+          Text(city.cityName,
           style: cityTitleStyle,
           )
         ],
