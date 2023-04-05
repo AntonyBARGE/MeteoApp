@@ -26,33 +26,30 @@ class CurrentWeatherPage extends StatelessWidget {
 
   Widget buildBody(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Expanded(
-              child: Consumer<WeatherProvider>(
-                builder:(context, weatherProvider, child) {
-                  var state = weatherProvider.currentWeatherState;
-                  if (state is Empty) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) => getCurrentWeatherOnline(context));
-                    return const MessageDisplay(message: 'Search your weather',);
-                  } else if (state is Loading) {
-                    return const LoadingWidget();
-                  } else if (state is Loaded) {
-                    return WeatherDisplay(weather: state.weather, city: state.city);
-                  } else if (state is Error) {
-                    return MessageDisplay(message: state.message);
-                  }
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height / 3,
-                    child: const Placeholder(),
-                  );
-                },
-              )
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Consumer<WeatherProvider>(
+              builder:(context, weatherProvider, child) {
+                var state = weatherProvider.currentWeatherState;
+                if (state is Empty) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) => getCurrentWeatherOnline(context));
+                  return const MessageDisplay(message: 'Search your weather',);
+                } else if (state is Loading) {
+                  return const LoadingWidget();
+                } else if (state is Loaded) {
+                  return WeatherDisplay(weather: state.weather, city: state.city);
+                } else if (state is Error) {
+                  return MessageDisplay(message: state.message);
+                }
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: const Placeholder(),
+                );
+              },
+            )
+          ),
+        ],
       )
     );
   }

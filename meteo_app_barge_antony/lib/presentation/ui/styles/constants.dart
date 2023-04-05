@@ -5,6 +5,7 @@ class Constants {
   final FlexSchemeColor themeCustomColors = FlexSchemeColor.from(
     primary: const Color(0xff6b9dfc),
     secondary: const Color(0xffa1c6fd),
+    tertiary: const Color(0xff272C52),
     brightness: Brightness.light,
   );
 
@@ -15,6 +16,7 @@ class Constants {
       stops: [0.0,1.0]
   );
   
+  late LinearGradient navbarLinearGradientBlue;
   late ThemeData lightTheme;
   late ThemeData darkTheme;
 
@@ -26,6 +28,8 @@ class Constants {
 
   late TextStyle temperatureStyle;
   late TextStyle dateStyle;
+  late TextStyle navbarLabelStyle;
+  late TextStyle hourlyTemperatureStyle;
 
   Constants(){
     lightTheme = FlexThemeData.light(
@@ -34,14 +38,30 @@ class Constants {
     );
     darkTheme = FlexThemeData.dark(colors: themeCustomColors.toDark(30, true));
 
+    navbarLinearGradientBlue =  LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [themeCustomColors.tertiary, themeCustomColors.primary],
+      stops: const [0.0,1.0]
+    );
     temperatureStyle = TextStyle(
       color: themeCustomColors.secondary,
       fontWeight: FontWeight.bold,
-      fontSize: 69.0
+      fontSize: 80.0
+    );
+    hourlyTemperatureStyle = const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
     );
     dateStyle = TextStyle(
       color: themeCustomColors.secondary,
       fontSize: 16.0
     );
+    navbarLabelStyle = TextStyle(
+      color: themeCustomColors.secondary,
+      fontWeight: FontWeight.bold,
+      fontSize: 20.0
+    );
+
   }
 }

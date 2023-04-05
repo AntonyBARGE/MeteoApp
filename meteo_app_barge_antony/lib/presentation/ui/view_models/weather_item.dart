@@ -4,9 +4,10 @@ class WeatherItem extends StatelessWidget {
   final num value;
   final String unit;
   final String imageUrl;
+  final Color? textColor;
 
   const WeatherItem({
-    Key? key, required this.value, required this.unit, required this.imageUrl,
+    Key? key, required this.value, required this.unit, required this.imageUrl, this.textColor,
   }) : super(key: key);
 
   @override
@@ -27,9 +28,9 @@ class WeatherItem extends StatelessWidget {
           height: 8.0,
         ),
         Text(
-          value.toString() + unit, style: const TextStyle(
+          value.toString() + unit, style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: textColor ?? Colors.white,
         ),
         ),
       ],

@@ -82,7 +82,7 @@ class _WeatherControlsState extends State<WeatherControls> {
           Text(df.format(selectedDate)),
           ElevatedButton(
             onPressed: () => selectDate(context),
-            child: const Icon(Icons.calendar_month, color: Colors.white,),
+            child: const Icon(Icons.calendar_month,),
           ),
         ],
       ),

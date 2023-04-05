@@ -67,6 +67,9 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.1.0
 
+  # for custom navbar (does it respect material 3?)
+  circle_nav_bar: ^2.0.1+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
