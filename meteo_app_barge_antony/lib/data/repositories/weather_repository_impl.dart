@@ -1,15 +1,12 @@
 import 'package:dartz/dartz.dart';
 
+import '../../domain/entities/city_entity.dart';
+import '../../domain/entities/weather_entity.dart';
+import '../../domain/repositories/weather_repository.dart';
 import '../../foundation/error/exceptions.dart';
 import '../../foundation/error/failures.dart';
 import '../../foundation/network/network_info.dart';
-import '../../domain/entities/city.dart';
-import '../models/weather.dart';
 import '../resources/remote/weather_api.dart';
-
-abstract class WeatherRepository {
-  Future<Either<Failure, Weather>>? getWeather(City city, DateTime day);
-}
 
 class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherAPI weatherAPI;
@@ -21,7 +18,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
   });
 
   @override
-  Future<Either<Failure, Weather>> getWeather(City city, DateTime day) async {
+  Future<Either<Failure, WeatherEntity>> getWeather(CityEntity city, DateTime day) async {
     if (await networkInfo.isConnected) {
       try {
         final weatherFromAPI = await weatherAPI.getWeather(city, day)!;

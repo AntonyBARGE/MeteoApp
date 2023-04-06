@@ -1,13 +1,15 @@
 import 'package:get_it/get_it.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
-import 'package:meteo_app_barge_antony/domain/use_cases/get_city_from_lat_long.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-import '../../data/repositories/location_repository.dart';
-import '../../data/repositories/weather_repository.dart';
+import '../../data/repositories/location_repository_impl.dart';
+import '../../data/repositories/weather_repository_impl.dart';
 import '../../data/resources/remote/location_service.dart';
 import '../../data/resources/remote/weather_api.dart';
 import '../../domain/managers/weather_provider.dart';
+import '../../domain/repositories/location_repository.dart';
+import '../../domain/repositories/weather_repository.dart';
+import '../../domain/use_cases/get_city_from_lat_long.dart';
 import '../../domain/use_cases/get_city_location.dart';
 import '../../domain/use_cases/get_current_location.dart';
 import '../../domain/use_cases/get_weather.dart';

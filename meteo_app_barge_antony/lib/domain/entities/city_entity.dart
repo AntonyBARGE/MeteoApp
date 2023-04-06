@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class City extends Equatable {
+class CityEntity extends Equatable {
   final String cityName;
   final double longitude;
   final double latitude;
 
-  const City({
+  const CityEntity({
     required this.cityName,
     required this.longitude,
     required this.latitude

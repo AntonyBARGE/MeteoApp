@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../domain/events/weather_event.dart';
-import '../../../../domain/managers/weather_provider.dart';
-import '../../../../foundation/util/input_converter.dart';
-import '../../styles/constants.dart';
+import '../../../../../domain/events/weather_event.dart';
+import '../../../../../domain/managers/weather_provider.dart';
+import '../../../../../foundation/util/input_converter.dart';
+import '../../../styles/ui.dart';
 
 
 class WeatherControls extends StatefulWidget {
@@ -30,7 +30,7 @@ class _WeatherControlsState extends State<WeatherControls> {
     
     return Column(
       children: [
-        Divider(color: Constants().lightTheme.secondaryHeaderColor, thickness: 3.0,),
+        const Divider(color: UI.SECONDARY_COLOR, thickness: 3.0,),
         const SizedBox(height: 10),
         Row(
           children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:meteo_app_barge_antony/presentation/ui/styles/constants.dart';
+import 'package:meteo_app_barge_antony/presentation/ui/styles/ui.dart';
 import 'application/injections/injection.dart' as injections;
 import 'presentation/routing/routes.dart';
 
@@ -13,7 +13,6 @@ void main() async {
 }
 
 final _appRouter = AppRouter();
-final Constants constants = Constants();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -27,8 +26,8 @@ class MyApp extends StatelessWidget {
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       
-      theme: constants.lightTheme,
-      darkTheme: constants.darkTheme,
+      theme: UI.LIGHT_THEME,
+      darkTheme: UI.DARK_THEME,
       themeMode: ThemeMode.system,
     );
   }

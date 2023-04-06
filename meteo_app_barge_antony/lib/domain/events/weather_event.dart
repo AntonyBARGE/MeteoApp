@@ -8,9 +8,9 @@ abstract class WeatherEvent extends Equatable {
 }
 
 class GetWeatherForLatAndLon extends WeatherEvent {
-  final String latitudeString;
-  final String longitudeString;
-  final String dayString;
+  final String latitudeInput;
+  final String longitudeInput;
+  final String dayInput;
 
-  const GetWeatherForLatAndLon(this.latitudeString, this.longitudeString, this.dayString);
+  const GetWeatherForLatAndLon(this.latitudeInput, this.longitudeInput, this.dayInput);
 }

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meteo_app_barge_antony/data/models/weather.dart';
 import 'package:meteo_app_barge_antony/domain/entities/hourly_weather.dart';
 import 'dart:convert';
 

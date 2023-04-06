@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/hourly_weather.dart';
-import '../../../foundation/util/utils.dart';
-import '../styles/constants.dart';
+import '../../../../../foundation/object/hourly_weather.dart';
+import '../../../../../foundation/util/utils.dart';
+import '../../../styles/ui.dart';
 
 class HourlyWeatherItem extends StatelessWidget {
   final String hourText;
@@ -17,8 +17,7 @@ class HourlyWeatherItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Constants constants = Constants();
-    final Color backgroundColor = isSelected ? constants.themeCustomColors.primary : constants.themeCustomColors.tertiary.withOpacity(0.7);
+    final Color backgroundColor = isSelected ? UI.PRIMARY_COLOR : UI.TERTIARY_COLOR.withOpacity(0.7);
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 24.0),
@@ -51,7 +50,7 @@ class HourlyWeatherItem extends StatelessWidget {
           Expanded(
             child: FittedBox(
               fit: BoxFit.fitWidth,
-              child: Text('${hourlyWeather.temperature}°C', style: constants.hourlyTemperatureStyle,),
+              child: Text('${hourlyWeather.temperature}°C', style: UI.HOURLY_TEMPERATURE_TEXT_STYLE,),
             )
           )
         ]

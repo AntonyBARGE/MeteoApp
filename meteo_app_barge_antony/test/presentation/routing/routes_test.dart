@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meteo_app_barge_antony/presentation/ui/views/home_page.dart';
-import 'package:meteo_app_barge_antony/presentation/ui/views/somewhere_weather_page.dart';
+import 'package:meteo_app_barge_antony/presentation/ui/views/pages/home_page.dart';
+import 'package:meteo_app_barge_antony/presentation/ui/views/pages/somewhere_weather_page.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

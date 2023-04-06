@@ -3,13 +3,13 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../foundation/error/exceptions.dart';
-import '../../../domain/entities/city.dart';
+import '../../models/city_model.dart';
 
 
 abstract class LocationService {
-  Future<City> getCurrentLocationCity();
-  Future<City> getCityFromName(String cityName);
-  Future<City> getCityFromLatLong(double latitude, double longitude);
+  Future<CityModel> getCurrentLocationCity();
+  Future<CityModel> getCityFromName(String cityName);
+  Future<CityModel> getCityFromLatLong(double latitude, double longitude);
 }
 
 class LocationServiceImpl implements LocationService {
@@ -19,7 +19,7 @@ class LocationServiceImpl implements LocationService {
   LocationServiceImpl();
 
   @override
-  Future<City> getCurrentLocationCity() async {
+  Future<CityModel> getCurrentLocationCity() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (serviceEnabled) {
       permission = await Geolocator.checkPermission();
@@ -27,7 +27,7 @@ class LocationServiceImpl implements LocationService {
         permission = await Geolocator.requestPermission();
         if (permission != LocationPermission.denied || permission != LocationPermission.deniedForever) {
           final Position currentPosition = await Geolocator.getCurrentPosition();
-          final City currentCity = await getCurrentCityFromPosition(currentPosition);
+          final CityModel currentCity = await getCurrentCityFromPosition(currentPosition);
           return currentCity;
         }
       }
@@ -36,7 +36,7 @@ class LocationServiceImpl implements LocationService {
   }
 
   @override
-  Future<City> getCityFromName(String cityName) async {
+  Future<CityModel> getCityFromName(String cityName) async {
     List<Location> locations;
     try {
       locations = await locationFromAddress(cityName);
@@ -44,7 +44,7 @@ class LocationServiceImpl implements LocationService {
       throw LocationException();
     }
     var city = locations.first;
-    return City(
+    return CityModel(
       cityName: cityName, 
       latitude: city.latitude, 
       longitude: city.longitude
@@ -52,7 +52,7 @@ class LocationServiceImpl implements LocationService {
   }
 
   @override
-  Future<City> getCityFromLatLong(double latitude, double longitude) async {
+  Future<CityModel> getCityFromLatLong(double latitude, double longitude) async {
     List<Placemark> placemarks;
     try {
       placemarks = await placemarkFromCoordinates(latitude, longitude);
@@ -63,14 +63,14 @@ class LocationServiceImpl implements LocationService {
     if (cityName == null || cityName == ''){
       cityName = 'Nowhere';
     }
-    return City(
+    return CityModel(
       cityName: cityName, 
       latitude: latitude,
       longitude: longitude
     );
   }
 
-  Future<City> getCurrentCityFromPosition(Position currentPosition) async {
+  Future<CityModel> getCurrentCityFromPosition(Position currentPosition) async {
     final Position position = currentPosition;
     final lat = position.latitude;
     final long = position.longitude;

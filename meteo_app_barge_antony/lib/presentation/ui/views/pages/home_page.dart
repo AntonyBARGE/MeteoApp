@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../routing/routes.gr.dart';
-import '../styles/constants.dart';
-import 'display_widgets/home_navigationbar.dart';
+import '../../../routing/routes.gr.dart';
+import '../../styles/ui.dart';
+import '../display_widgets/home_navigationbar.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -17,9 +17,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Constants constants = Constants();
     return AutoTabsScaffold(
-      backgroundColor: constants.themeCustomColors.tertiary,
+      backgroundColor: UI.TERTIARY_COLOR,
       routes: const [
         CurrentWeatherRoute(),
         SomewhereWeatherRoute()

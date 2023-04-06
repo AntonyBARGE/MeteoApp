@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../../data/models/weather.dart';
-import '../entities/city.dart';
+import '../entities/city_entity.dart';
+import '../entities/weather_entity.dart';
+
 
 abstract class WeatherState extends Equatable {
   const WeatherState();
@@ -15,8 +16,8 @@ class Empty extends WeatherState {}
 class Loading extends WeatherState {}
 
 class Loaded extends WeatherState {
-  final Weather weather;
-  final City city;
+  final WeatherEntity weather;
+  final CityEntity city;
 
   const Loaded({required this.weather, required this.city});
 }

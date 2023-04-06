@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:meteo_app_barge_antony/data/models/weather.dart';
 import 'package:meteo_app_barge_antony/data/repositories/weather_repository.dart';
 import 'package:meteo_app_barge_antony/data/resources/remote/weather_api.dart';
-import 'package:meteo_app_barge_antony/domain/entities/city.dart';
 import 'package:meteo_app_barge_antony/domain/entities/hourly_weather.dart';
 import 'package:meteo_app_barge_antony/foundation/error/exceptions.dart';
 import 'package:meteo_app_barge_antony/foundation/error/failures.dart';

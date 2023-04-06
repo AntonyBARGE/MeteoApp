@@ -6,10 +6,10 @@
 import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
-import 'package:meteo_app_barge_antony/data/models/weather.dart' as _i6;
+import 'package:meteo_app_barge_antony/data/models/weather_model.dart' as _i6;
 import 'package:meteo_app_barge_antony/data/repositories/weather_repository.dart'
     as _i2;
-import 'package:meteo_app_barge_antony/domain/entities/city.dart' as _i7;
+import 'package:meteo_app_barge_antony/data/models/city_model.dart' as _i7;
 import 'package:meteo_app_barge_antony/foundation/error/failures.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
