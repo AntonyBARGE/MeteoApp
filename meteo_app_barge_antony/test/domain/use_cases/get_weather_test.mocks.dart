@@ -6,10 +6,11 @@
 import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
-import 'package:meteo_app_barge_antony/data/models/weather_model.dart' as _i6;
-import 'package:meteo_app_barge_antony/data/repositories/weather_repository.dart'
+import 'package:meteo_app_barge_antony/domain/entities/city_entity.dart' as _i7;
+import 'package:meteo_app_barge_antony/domain/entities/weather_entity.dart'
+    as _i6;
+import 'package:meteo_app_barge_antony/domain/repositories/weather_repository.dart'
     as _i2;
-import 'package:meteo_app_barge_antony/data/models/city_model.dart' as _i7;
 import 'package:meteo_app_barge_antony/foundation/error/failures.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -33,8 +34,8 @@ class MockWeatherRepository extends _i1.Mock implements _i2.WeatherRepository {
   }
 
   @override
-  _i3.Future<_i4.Either<_i5.Failure, _i6.Weather>>? getWeather(
-    _i7.City? city,
+  _i3.Future<_i4.Either<_i5.Failure, _i6.WeatherEntity>>? getWeather(
+    _i7.CityEntity? city,
     DateTime? day,
   ) =>
       (super.noSuchMethod(Invocation.method(
@@ -43,5 +44,5 @@ class MockWeatherRepository extends _i1.Mock implements _i2.WeatherRepository {
           city,
           day,
         ],
-      )) as _i3.Future<_i4.Either<_i5.Failure, _i6.Weather>>?);
+      )) as _i3.Future<_i4.Either<_i5.Failure, _i6.WeatherEntity>>?);
 }

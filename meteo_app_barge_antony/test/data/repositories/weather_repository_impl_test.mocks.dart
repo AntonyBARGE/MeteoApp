@@ -8,7 +8,7 @@ import 'dart:async' as _i3;
 import 'package:meteo_app_barge_antony/data/models/weather_model.dart' as _i5;
 import 'package:meteo_app_barge_antony/data/resources/remote/weather_api.dart'
     as _i4;
-import 'package:meteo_app_barge_antony/data/models/city_model.dart' as _i6;
+import 'package:meteo_app_barge_antony/domain/entities/city_entity.dart' as _i6;
 import 'package:meteo_app_barge_antony/foundation/network/network_info.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -48,8 +48,8 @@ class MockWeatherAPI extends _i1.Mock implements _i4.WeatherAPI {
   }
 
   @override
-  _i3.Future<_i5.Weather>? getWeather(
-    _i6.City? city,
+  _i3.Future<_i5.WeatherModel>? getWeather(
+    _i6.CityEntity? city,
     DateTime? day,
   ) =>
       (super.noSuchMethod(Invocation.method(
@@ -58,5 +58,5 @@ class MockWeatherAPI extends _i1.Mock implements _i4.WeatherAPI {
           city,
           day,
         ],
-      )) as _i3.Future<_i5.Weather>?);
+      )) as _i3.Future<_i5.WeatherModel>?);
 }

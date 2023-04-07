@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meteo_app_barge_antony/domain/entities/hourly_weather.dart';
+import 'package:meteo_app_barge_antony/data/models/weather_model.dart';
+import 'package:meteo_app_barge_antony/foundation/object/hourly_weather.dart';
 import 'dart:convert';
 
 
@@ -21,7 +22,7 @@ void main() {
         hourlyWeatherCode: tHourlyWeatherCodes[hour]
       )
     );
-  final tWeather = Weather(
+  final tWeather = WeatherModel(
     hourlyWeathers: tHourlyWeathers, 
     weatherCode: 2
   );
@@ -32,7 +33,7 @@ void main() {
       //arrange
       final Map<String, dynamic> jsonMap = json.decode(fixture('weather.json'));
       //act
-      final result = Weather.fromJson(jsonMap);
+      final result = WeatherModel.fromJson(jsonMap);
       //assert
       expect(result, equals(tWeather));
     });
