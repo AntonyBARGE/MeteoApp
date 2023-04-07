@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../application/config/constants.dart';
 import '../../../../../foundation/object/hourly_weather.dart';
 import '../../../view_models/weather.dart';
 import 'hourly_weather_item.dart';
@@ -8,31 +9,35 @@ import 'hourly_weather_item.dart';
 class HourlyWeatherList extends StatelessWidget {
   final DateTime today;
   final double contextWidth;
-  final int dayController;
-  final Function changeSelectedDate;
+  final ValueNotifier<int> dayController;
+  final ValueNotifier<DateTime> selectedDay;
   final PageController dayPageController;
   final ScrollController hourListController;
   final Weather weather;
 
   const HourlyWeatherList({ Key? key, required this.today, required this.contextWidth, required this.dayController,
-  required this.changeSelectedDate, required this.dayPageController, required this.hourListController, required this.weather}) : super(key: key);
+  required this.selectedDay, required this.dayPageController, required this.hourListController, required this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final df = DateFormat('j');
-    final int highlightedHour = today.hour;
+    int highlightedHour = today.hour;
     final List<HourlyWeather> hourlyWeathers = weather.hourlyWeathers;
-    final double initialScrollOffset = (highlightedHour > 2) ? (contextWidth + 15) * (highlightedHour - 2) : 0;
+    final double itemWidth = contextWidth/7 + 15;
+    final double initialScrollOffset = (highlightedHour > 2) ? itemWidth * (highlightedHour - 2) : 0;
+    WidgetsBinding.instance.addPostFrameCallback((_) => hourListController.jumpTo(initialScrollOffset));
+
 
     return NotificationListener<ScrollUpdateNotification>(
       onNotification: (notification) {
-        int dayOffset = notification.metrics.pixels~/(24*(contextWidth + 15));
-        if (dayOffset != dayController) {
+        int dayOffset = notification.metrics.pixels~/(Constants.HOURS_IN_A_DAY * itemWidth);
+        if (dayOffset != dayController.value) {
           dayPageController.animateToPage(dayOffset, 
-            duration: const Duration(milliseconds: 500), 
+            duration: const Duration(milliseconds: 500),
             curve: Curves.decelerate
           );
-          changeSelectedDate(dayOffset);
+          dayController.value = dayOffset;
+          selectedDay.value = today.add(Duration(days: dayController.value));
         }
         return true;
       },
@@ -48,7 +53,7 @@ class HourlyWeatherList extends StatelessWidget {
             return HourlyWeatherItem(
               hourText: (hour == DateTime.now().hour) ? 'Now' : df.format(DateTime(2022, 12, 31, hour, 0)).toString(),
               hourlyWeather: hourlyWeathers[hour],
-              width: contextWidth,
+              width: itemWidth - 15,
               isSelected: hour == highlightedHour,
             );
           },

@@ -26,6 +26,7 @@ class UI {
   static const TextStyle HOURLY_TEMPERATURE_TEXT_STYLE = TextStyle(color: Colors.white, fontWeight: FontWeight.bold,);
   static const TextStyle DATE_TEXT_STYLE = TextStyle( color: SECONDARY_COLOR, fontSize: 16.0);
   static const TextStyle NAVBAR_LABEL_TEXT_STYLE = TextStyle(color: SECONDARY_COLOR, fontWeight: FontWeight.bold, fontSize: 20.0);
+  static const TextStyle RAIN_PROBABILITY_TEXT_STYLE = TextStyle(color: RAIN_PROBABILITY_TEXT_COLOR, fontWeight: FontWeight.bold);
 
   // Sizes
   static const double BUTTON_HEIGHT = 50.0;

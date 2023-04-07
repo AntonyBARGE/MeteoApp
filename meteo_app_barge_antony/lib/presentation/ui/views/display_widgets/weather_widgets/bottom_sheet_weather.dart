@@ -8,19 +8,19 @@ import 'hourly_weather_list.dart';
 
 class BottomSheetWeather extends StatelessWidget {
   final Weather weather;
-  final int dayController;
+  final ValueNotifier<int> dayController;
   final DateTime today;
   final double contextWidth;
-  final Function changeSelectedDate;
   final PageController pageDayController;
-  final ScrollController hourController; 
+  final ScrollController hourController;
+  final ValueNotifier<DateTime> selectedDay;
 
-  const BottomSheetWeather({Key? key, required this.weather, required this.dayController, required this.today, 
-  required this.contextWidth, required this.changeSelectedDate, required this.hourController, required this.pageDayController}) : super(key: key);
+  const BottomSheetWeather({Key? key, required this.weather, required this.dayController, required this.today, required this.selectedDay,
+  required this.contextWidth, required this.hourController, required this.pageDayController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final int hourDisplayedInfos = dayController * 24 + today.hour;
+    final int hourDisplayedInfos = dayController.value * 24 + today.hour;
 
     return Container(
       decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class BottomSheetWeather extends StatelessWidget {
           _displayDate(),
           Expanded(
             child: HourlyWeatherList(
-              changeSelectedDate: changeSelectedDate, 
+              selectedDay: selectedDay, 
               contextWidth: contextWidth, 
               dayController: dayController, 
               hourListController: hourController, 
@@ -77,7 +77,12 @@ class BottomSheetWeather extends StatelessWidget {
   Widget _displayDate() {
     DateFormat df = DateFormat.yMMMMd('fr');
     return Center(
-      child: Text(df.format(today).toString(), style: UI.DATE_TEXT_STYLE),
+      child: ValueListenableBuilder<DateTime>(
+        valueListenable: selectedDay,
+        builder: (context, date, _) {
+          return Text(df.format(date).toString(), style: UI.DATE_TEXT_STYLE);
+        },
+      )
     );
   }
 }

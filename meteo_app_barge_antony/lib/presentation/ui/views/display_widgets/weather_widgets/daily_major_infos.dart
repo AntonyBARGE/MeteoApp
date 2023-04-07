@@ -15,7 +15,7 @@ class DailyMajorInfos extends StatelessWidget {
     double horizontalPadding = screenWidth/5;
     return Column(
       children: [
-        Text('${hourlyWeather.temperature.round()}°C', style: UI.HOURLY_TEMPERATURE_TEXT_STYLE),
+        Text('${hourlyWeather.temperature.round()}°C', style: UI.TEMPERATURE_TEXT_STYLE),
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(bottom: 25.0, left: horizontalPadding, right: horizontalPadding),

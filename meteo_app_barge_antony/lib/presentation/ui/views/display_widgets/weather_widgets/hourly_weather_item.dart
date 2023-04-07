@@ -44,7 +44,7 @@ class HourlyWeatherItem extends StatelessWidget {
           ),
           const SizedBox(height: 2.0,),
           hourlyWeather.precipitationProbability > 30 ? 
-              Text('${hourlyWeather.precipitationProbability}%', style: const TextStyle(color: Color(0xff59DAFF), fontWeight: FontWeight.bold)) : 
+              Text('${hourlyWeather.precipitationProbability}%', style: UI.RAIN_PROBABILITY_TEXT_STYLE) : 
               const SizedBox(height: 10.0,),
           const SizedBox(height: 3.0,),
           Expanded(
