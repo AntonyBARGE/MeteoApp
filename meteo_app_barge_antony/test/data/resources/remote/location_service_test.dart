@@ -100,8 +100,8 @@ void main() {
         .thenAnswer((_) async => locations);
 
       // Perform test
-      final result = await locationService.getCityFromName(cityModel.cityName);
-      expect(result, equals(cityModel));
+      final result = await locationService.getCitiesFromName(cityModel.cityName);
+      expect(result.first, equals(cityModel));
     });
 
     test('should throw LocationException when platform exception caught', () async {
@@ -112,7 +112,7 @@ void main() {
         .thenThrow(PlatformException(code: 'TestCode'));
 
       // Perform test
-      expect(() => locationService.getCityFromName(cityName),
+      expect(() => locationService.getCitiesFromName(cityName),
         throwsA(isInstanceOf<LocationException>())
       );
     });

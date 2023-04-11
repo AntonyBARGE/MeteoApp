@@ -20,8 +20,6 @@ class BottomSheetWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int hourDisplayedInfos = dayController.value * 24 + today.hour;
-
     return Container(
       decoration: BoxDecoration(
       borderRadius: const BorderRadius.vertical(
@@ -37,7 +35,13 @@ class BottomSheetWeather extends StatelessWidget {
     ),
       child: Column(
         children: [
-          DailyRow(hourlyWeather: weather.hourlyWeathers[hourDisplayedInfos],),
+          ValueListenableBuilder<DateTime>(
+            valueListenable: selectedDay,
+            builder: (context, date, _) {
+              final int hourDisplayedInfos = dayController.value * 24 + today.hour;
+              return DailyRow(hourlyWeather: weather.hourlyWeathers[hourDisplayedInfos],);
+            },
+          ),
           _customDivider(),
           _displayDate(),
           Expanded(

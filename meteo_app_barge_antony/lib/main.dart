@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:meteo_app_barge_antony/presentation/ui/styles/ui.dart';
+
 import 'application/injections/injection.dart' as injections;
 import 'presentation/routing/routes.dart';
+import 'presentation/ui/styles/ui.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await injections.init();
+  await injections.init(injections.currentWeatherSL);
+  await injections.init(injections.choosenWeatherSL);
   initializeDateFormatting();
   runApp(const MyApp());
 }

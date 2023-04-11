@@ -100,6 +100,10 @@ class WeatherProvider extends ChangeNotifier {
       });
   }
 
+  void setToEmpty() {
+    weatherState = Empty();
+    notifyListeners();
+  }
 }
 
 String _mapFailureToMessage(Failure failure) {

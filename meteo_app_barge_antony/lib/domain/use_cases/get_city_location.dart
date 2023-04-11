@@ -6,14 +6,14 @@ import '../entities/city_entity.dart';
 import '../repositories/location_repository.dart';
 import 'usecase.dart';
 
-class GetCityLocation implements UseCase<CityEntity, Params> {
+class GetCityLocations implements UseCase<List<CityEntity>, Params> {
   final LocationRepository repository;
 
-  GetCityLocation(this.repository);
+  GetCityLocations(this.repository);
 
   @override
-  Future<Either<Failure, CityEntity>?> call(Params params) async {
-    return await repository.getLocationFromCityName(params.cityName);
+  Future<Either<Failure, List<CityEntity>>?> call(Params params) async {
+    return await repository.getLocationsFromCityName(params.cityName);
   }
 }
 

@@ -17,9 +17,10 @@ import '../../foundation/network/network_info.dart';
 import '../../foundation/util/input_converter.dart';
 
 // service locator
-final serviceLocator = GetIt.instance;
+final currentWeatherSL = GetIt.instance;
+final choosenWeatherSL = GetIt.asNewInstance();
 
-Future<void> init() async {
+Future<void> init(GetIt serviceLocator) async {
   //! Features -Weather
   serviceLocator.registerFactory(() => WeatherProvider(
       getWeather: serviceLocator(),
@@ -31,7 +32,7 @@ Future<void> init() async {
   // Use cases
   serviceLocator.registerLazySingleton(() => GetWeather(serviceLocator()));
   serviceLocator.registerLazySingleton(() => GetCurrentLocation(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => GetCityLocation(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => GetCityLocations(serviceLocator()));
   serviceLocator.registerLazySingleton(() => GetCityFromLatLong(serviceLocator()));
 
   // Repositories

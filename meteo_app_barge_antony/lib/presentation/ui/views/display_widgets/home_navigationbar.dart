@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import '../../styles/ui.dart';
 
 class HomeNavigationBar extends StatefulWidget {
-  TabsRouter tabsRouter;
+  final TabsRouter tabsRouter;
 
-  HomeNavigationBar(this.tabsRouter, {super.key});
+  const HomeNavigationBar(this.tabsRouter, {super.key});
 
   @override
   State<HomeNavigationBar> createState() => _HomeNavigationBarState();

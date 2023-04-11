@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: UI.TERTIARY_COLOR,
       routes: const [
         CurrentWeatherRoute(),

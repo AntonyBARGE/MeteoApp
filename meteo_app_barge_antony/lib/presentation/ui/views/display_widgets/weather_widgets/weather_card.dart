@@ -10,8 +10,9 @@ import 'daily_weather_display.dart';
 class WeatherCard extends StatelessWidget {
   final Weather weather;
   final City city;
+  final bool isAllowingLocationChange;
   
-  const WeatherCard({super.key, required this.weather, required this.city});
+  const WeatherCard({super.key, required this.weather, required this.city, required this.isAllowingLocationChange});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class WeatherCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          CityHeadline(cityName: city.cityName,),
+          CityHeadline(cityName: city.cityName, isAllowingLocationChange: isAllowingLocationChange),
           Expanded(
             child: DailyWeatherDisplay(
               weather: weather,

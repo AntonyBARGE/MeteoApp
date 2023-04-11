@@ -9,8 +9,9 @@ import '../../../styles/ui.dart';
 
 
 class WeatherControls extends StatefulWidget {
+  final DateTime selectedDate;
   const WeatherControls({
-    Key? key,
+    Key? key, required this.selectedDate
   }) : super(key: key);
 
   @override
@@ -20,34 +21,38 @@ class WeatherControls extends StatefulWidget {
 class _WeatherControlsState extends State<WeatherControls> {
   final latitudeController = TextEditingController();
   final longitudeController = TextEditingController();
-  late String inputLatitudeStr;
-  late String inputLongitudeStr;
-  DateTime selectedDate = DateTime.now();
+  String inputLatitudeStr = '';
+  String inputLongitudeStr = '';
+  late DateTime selectedDate;
 
   @override
   Widget build(BuildContext context) {
     DateFormat df = DateFormat.yMMMMd('fr') ;
+    selectedDate = widget.selectedDate;
     
     return Column(
       children: [
+        const SizedBox(height: 10),
         const Divider(color: UI.SECONDARY_COLOR, thickness: 3.0,),
         const SizedBox(height: 10),
         Row(
           children: [
-            latFormField(),
+            _latFormField(),
             const SizedBox(width: 20),
-            longFormField(),
-            datePicker(df),
+            _longFormField(),
+            _datePicker(df),
           ]
         ),
         const SizedBox(height: 10),
-        searchButton(),
+        _searchButton(),
+        const Divider(color: UI.SECONDARY_COLOR, thickness: 3.0,),
+        const SizedBox(height: 10),
       ],
     );
   }
   
-  Widget latFormField() => Expanded(
-    child: TextField(
+  Widget _latFormField() => Expanded(
+    child: TextFormField(
       controller: latitudeController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
@@ -57,11 +62,17 @@ class _WeatherControlsState extends State<WeatherControls> {
       onChanged: (newLatitude) {
         inputLatitudeStr = newLatitude;
       },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a latitude';
+        }
+        return null;
+      },
     )
   );
   
-  Widget longFormField() => Expanded(
-    child: TextField(
+  Widget _longFormField() => Expanded(
+    child: TextFormField(
       controller: longitudeController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
@@ -71,17 +82,23 @@ class _WeatherControlsState extends State<WeatherControls> {
       onChanged: (newLongitude) {
         inputLongitudeStr = newLongitude;
       },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a longitude';
+        }
+        return null;
+      },
     )
   );
   
-  Widget datePicker(DateFormat df) => Expanded(
+  Widget _datePicker(DateFormat df) => Expanded(
     child: Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(df.format(selectedDate)),
+          Text(df.format(selectedDate), style: UI.DATE_TEXT_STYLE,),
           ElevatedButton(
-            onPressed: () => selectDate(context),
+            onPressed: () => _selectDate(context),
             child: const Icon(Icons.calendar_month,),
           ),
         ],
@@ -89,7 +106,7 @@ class _WeatherControlsState extends State<WeatherControls> {
     )
   );
 
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -103,18 +120,18 @@ class _WeatherControlsState extends State<WeatherControls> {
     }
   }
   
-  Widget searchButton() => Row(
+  Widget _searchButton() => Row(
     children: [
       Expanded(
         child: ElevatedButton(
-          onPressed: getWeatherOnline,
+          onPressed: _getWeatherOnline,
           child: const Text('Search'),
         ),
       )
     ]
   );
 
-  void getWeatherOnline() {
+  void _getWeatherOnline() {
     var provider = context.read<WeatherProvider>();
     var inputs = GetWeatherForLatAndLon(inputLatitudeStr, inputLongitudeStr, selectedDate.toString());
     provider.verifyInputThenCall(inputs);

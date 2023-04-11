@@ -22,11 +22,11 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<Either<Failure, CityModel>>? getLocationFromCityName(String cityName) async {
+  Future<Either<Failure, List<CityModel>>>? getLocationsFromCityName(String cityName) async {
     try {
-      final CityModel currentCity = await locationService.getCityFromName(cityName);
-      return Right(currentCity);
-    } on LocationException {
+      final List<CityModel> currentCities = await locationService.getCitiesFromName(cityName);
+      return Right(currentCities);
+    } catch(e) {
       return Left(LocationFailure());
     }
   }
