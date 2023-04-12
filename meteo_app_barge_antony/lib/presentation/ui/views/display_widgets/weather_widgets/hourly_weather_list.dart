@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../application/config/constants.dart';
+import '../../../../../domain/managers/weather_provider.dart';
 import '../../../../../foundation/object/hourly_weather.dart';
+import '../../../../../foundation/util/datetime_extension.dart';
 import '../../../view_models/weather.dart';
 import 'hourly_weather_item.dart';
 
@@ -10,13 +13,12 @@ class HourlyWeatherList extends StatelessWidget {
   final DateTime today;
   final double contextWidth;
   final ValueNotifier<int> dayController;
-  final ValueNotifier<DateTime> selectedDay;
   final PageController dayPageController;
   final ScrollController hourListController;
   final Weather weather;
 
-  const HourlyWeatherList({ Key? key, required this.today, required this.contextWidth, required this.dayController,
-  required this.selectedDay, required this.dayPageController, required this.hourListController, required this.weather}) : super(key: key);
+  const HourlyWeatherList({Key? key, required this.today, required this.contextWidth, required this.dayController,
+  required this.dayPageController, required this.hourListController, required this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,9 @@ class HourlyWeatherList extends StatelessWidget {
     final double itemWidth = contextWidth/7 + 15;
     final double initialScrollOffset = (highlightedHour > 2) ? itemWidth * (highlightedHour - 2) : 0;
     WidgetsBinding.instance.addPostFrameCallback((_) => hourListController.jumpTo(initialScrollOffset));
+    var provider = context.read<WeatherProvider>();
+    final selectedDay = provider.selectedDay;
+    final initialSelectedDay = selectedDay.value.copy();
 
 
     return NotificationListener<ScrollUpdateNotification>(
@@ -37,7 +42,7 @@ class HourlyWeatherList extends StatelessWidget {
             curve: Curves.decelerate
           );
           dayController.value = dayOffset;
-          selectedDay.value = today.add(Duration(days: dayController.value));
+          selectedDay.value = initialSelectedDay.add(Duration(days: dayController.value));
         }
         return true;
       },
@@ -49,7 +54,7 @@ class HourlyWeatherList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: hourlyWeathers.length,
           separatorBuilder: (context, index) => const SizedBox(width: 15.0,),
-          itemBuilder: (BuildContext context, int hour) { 
+          itemBuilder: (BuildContext context, int hour) {
             return HourlyWeatherItem(
               hourText: (hour == DateTime.now().hour) ? 'Now' : df.format(DateTime(2022, 12, 31, hour, 0)).toString(),
               hourlyWeather: hourlyWeathers[hour],

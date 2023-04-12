@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
+
 import '../error/failures.dart';
 
-final DateTime noDataBeforeThisDay = DateTime(2022, 06, 08);
+final DateTime noDataBeforeThisDay = DateTime(2022, 06, 09);
 
 class InputConverter {
   Either<Failure, double> stringToDouble(String string, double maxValue) {

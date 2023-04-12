@@ -65,7 +65,7 @@ void main() {
       expect(result, equals(Left(InvalidInputFailure())));
     });
 
-    test('should return a Failure when the string is a date out of range (out of 2022-06-08 to two weeks after current day )',
+    test('should return a Failure when the string is a date out of range (out of 2022-06-09 to two weeks after current day )',
         () async {
       //arrange
       const str = '2012-06-08';

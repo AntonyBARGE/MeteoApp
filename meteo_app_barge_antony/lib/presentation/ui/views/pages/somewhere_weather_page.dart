@@ -22,11 +22,14 @@ class SomewhereWeatherPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return WeatherPage(onEmpty: _onEmpty, isAllowingLocationChange: true);
+    return WeatherPage(
+      onEmpty: _onEmpty, 
+      isAllowingLocationChange: true,
+    );
   }
 
-  Widget _onEmpty(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(20),
-    child: CityControls(parentContext: context)
+  Widget _onEmpty(BuildContext context) => const Padding(
+    padding: EdgeInsets.all(20),
+    child: CityControls()
   );
 }

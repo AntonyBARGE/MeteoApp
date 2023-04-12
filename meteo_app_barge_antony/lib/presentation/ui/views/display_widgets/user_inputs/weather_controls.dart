@@ -9,10 +9,7 @@ import '../../../styles/ui.dart';
 
 
 class WeatherControls extends StatefulWidget {
-  final DateTime selectedDate;
-  const WeatherControls({
-    Key? key, required this.selectedDate
-  }) : super(key: key);
+  const WeatherControls({Key? key}) : super(key: key);
 
   @override
   State<WeatherControls> createState() => _WeatherControlsState();
@@ -23,12 +20,13 @@ class _WeatherControlsState extends State<WeatherControls> {
   final longitudeController = TextEditingController();
   String inputLatitudeStr = '';
   String inputLongitudeStr = '';
-  late DateTime selectedDate;
+  late ValueNotifier<DateTime> selectedDay;
 
   @override
   Widget build(BuildContext context) {
-    DateFormat df = DateFormat.yMMMMd('fr') ;
-    selectedDate = widget.selectedDate;
+    DateFormat df = DateFormat.yMMMMd('fr');
+    var provider = context.read<WeatherProvider>();
+    selectedDay = provider.selectedDay;
     
     return Column(
       children: [
@@ -96,7 +94,7 @@ class _WeatherControlsState extends State<WeatherControls> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(df.format(selectedDate), style: UI.DATE_TEXT_STYLE,),
+          Text(df.format(selectedDay.value), style: UI.DATE_TEXT_STYLE,),
           ElevatedButton(
             onPressed: () => _selectDate(context),
             child: const Icon(Icons.calendar_month,),
@@ -109,13 +107,13 @@ class _WeatherControlsState extends State<WeatherControls> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: selectedDay.value,
       firstDate: noDataBeforeThisDay,
       lastDate: DateTime.now().add(const Duration(days: 14))
     );
-    if (picked != null && picked != selectedDate) {
+    if (picked != null && picked != selectedDay.value) {
       setState(() {
-        selectedDate = picked;
+        selectedDay.value = picked;
       });
     }
   }
@@ -133,7 +131,7 @@ class _WeatherControlsState extends State<WeatherControls> {
 
   void _getWeatherOnline() {
     var provider = context.read<WeatherProvider>();
-    var inputs = GetWeatherForLatAndLon(inputLatitudeStr, inputLongitudeStr, selectedDate.toString());
+    var inputs = GetWeatherForLatAndLon(inputLatitudeStr, inputLongitudeStr, selectedDay.value.toString());
     provider.verifyInputThenCall(inputs);
   }
 }

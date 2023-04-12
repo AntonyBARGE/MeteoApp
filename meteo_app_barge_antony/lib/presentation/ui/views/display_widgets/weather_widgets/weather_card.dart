@@ -12,7 +12,9 @@ class WeatherCard extends StatelessWidget {
   final City city;
   final bool isAllowingLocationChange;
   
-  const WeatherCard({super.key, required this.weather, required this.city, required this.isAllowingLocationChange});
+  const WeatherCard({super.key, required this.weather, required this.city, 
+  required this.isAllowingLocationChange});
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,6 @@ class WeatherCard extends StatelessWidget {
               contextSize: contextSize,
               hourController: hourController,
               pageDayController: pageDayController,
-              today: DateTime.now(),
               )
           )
         ]

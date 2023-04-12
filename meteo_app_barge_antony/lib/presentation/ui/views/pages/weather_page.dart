@@ -14,6 +14,7 @@ class WeatherPage extends StatelessWidget {
   final bool isAllowingLocationChange;
   const WeatherPage({super.key, required this.onEmpty, required this.isAllowingLocationChange});
 
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -31,7 +32,7 @@ class WeatherPage extends StatelessWidget {
                   return WeatherCard(
                     weather: Weather.fromEntity(state.weather), 
                     city: City.fromEntity(state.city),
-                    isAllowingLocationChange: isAllowingLocationChange
+                    isAllowingLocationChange: isAllowingLocationChange,
                   );
                 } else if (state is Error) {
                   return MessageDisplay(message: state.message);

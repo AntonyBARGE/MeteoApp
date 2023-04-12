@@ -23,7 +23,10 @@ class CurrentWeatherPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return WeatherPage(onEmpty: _onEmpty, isAllowingLocationChange: false);
+    return WeatherPage(
+      onEmpty: _onEmpty, 
+      isAllowingLocationChange: false,
+    );
   }
 
   Widget _onEmpty(BuildContext context) {

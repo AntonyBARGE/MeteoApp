@@ -11,14 +11,13 @@ class DailyWeatherDisplay extends StatelessWidget {
   final Weather weather;
   final PageController pageDayController;
   final ScrollController hourController;
-  final DateTime today;
   final Size contextSize;
 
-  DailyWeatherDisplay({Key? key, required this.weather, required this.pageDayController, 
-  required this.hourController, required this.today, required this.contextSize}) : super(key: key);
+  DailyWeatherDisplay({Key? key, required this.weather, required this.pageDayController,
+  required this.hourController, required this.contextSize}) : super(key: key);
 
-  final ValueNotifier<DateTime> _selectedDay = ValueNotifier<DateTime>(DateTime.now());
   final ValueNotifier<int> _dayController = ValueNotifier<int>(0);
+  final DateTime today = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,6 @@ class DailyWeatherDisplay extends StatelessWidget {
             dayController: _dayController,
             hourController: hourController, 
             pageDayController: pageDayController,
-            selectedDay: _selectedDay,
           )
         )
       ]

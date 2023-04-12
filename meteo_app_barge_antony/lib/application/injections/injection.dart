@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -27,12 +28,14 @@ Future<void> init() async {
       getCityFromLatLong: currentWeatherSL(),
       getCurrentLocation: currentWeatherSL(),
       inputConverter: currentWeatherSL(),
+      selectedDay: ValueNotifier<DateTime>(DateTime.now()),
   ));
   choosenWeatherSL.registerFactory(() => WeatherProvider(
       getWeather: currentWeatherSL(),
       getCityFromLatLong: currentWeatherSL(),
       getCurrentLocation: currentWeatherSL(),
       inputConverter: currentWeatherSL(),
+      selectedDay: ValueNotifier<DateTime>(DateTime.now()),
   ));
 
   // Use cases

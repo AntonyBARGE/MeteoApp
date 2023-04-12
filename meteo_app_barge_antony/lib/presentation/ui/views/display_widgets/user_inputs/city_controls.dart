@@ -10,8 +10,7 @@ import 'weather_controls.dart';
 
 
 class CityControls extends StatefulWidget {
-  final BuildContext parentContext;
-  const CityControls({Key? key, required this.parentContext}) : super(key: key);
+  const CityControls({Key? key}) : super(key: key);
 
   @override
   State<CityControls> createState() => _CityControlsState();
@@ -20,16 +19,18 @@ class CityControls extends StatefulWidget {
 class _CityControlsState extends State<CityControls> {
   final TextEditingController cityInputText = TextEditingController();
   final GetCityLocations getCityLocations = GetCityLocations(currentWeatherSL());
-  DateTime selectedDate = DateTime.now();
   List<City> citiesFromInput = [];
+  late ValueNotifier<DateTime> selectedDay;
 
   @override
   Widget build(BuildContext context) {
-
+    var provider = context.read<WeatherProvider>();
+    selectedDay = provider.selectedDay;
+    
     return Column(
       children: [
         _cityFormField(),
-        WeatherControls(selectedDate: selectedDate),
+        const WeatherControls(),
         Expanded(
           child: citiesFromInput.isNotEmpty
               ? ListView.builder(
@@ -106,7 +107,7 @@ class _CityControlsState extends State<CityControls> {
           ),
           child: ListTile(
             horizontalTitleGap: 0,
-            onTap: () => getWeatherFromCityOnline(context, city, selectedDate),
+            onTap: () => getWeatherFromCityOnline(context, city, selectedDay.value),
             leading: const Icon(Icons.pin_drop_rounded),
             title: Text(
               textDisplayed,

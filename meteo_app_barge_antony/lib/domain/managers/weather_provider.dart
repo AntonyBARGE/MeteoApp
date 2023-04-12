@@ -16,6 +16,7 @@ class WeatherProvider extends ChangeNotifier {
   final GetCityFromLatLong getCityFromLatLong;
   final GetCurrentLocation getCurrentLocation;
   final InputConverter inputConverter;
+  final ValueNotifier<DateTime> selectedDay;
   WeatherState weatherState = Empty();
 
   WeatherState get currentWeatherState => weatherState;
@@ -25,6 +26,7 @@ class WeatherProvider extends ChangeNotifier {
     required this.getCityFromLatLong,
     required this.getCurrentLocation,
     required this.inputConverter,
+    required this.selectedDay
   });
 
   void changeWeatherFromCity(CityEntity city, DateTime date) async {

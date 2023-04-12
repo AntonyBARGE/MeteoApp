@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../domain/managers/weather_provider.dart';
 import '../../../styles/ui.dart';
 import '../../../view_models/weather.dart';
 import 'daily_row.dart';
@@ -13,13 +15,17 @@ class BottomSheetWeather extends StatelessWidget {
   final double contextWidth;
   final PageController pageDayController;
   final ScrollController hourController;
-  final ValueNotifier<DateTime> selectedDay;
 
-  const BottomSheetWeather({Key? key, required this.weather, required this.dayController, required this.today, required this.selectedDay,
+  BottomSheetWeather({Key? key, required this.weather, required this.dayController, required this.today,
   required this.contextWidth, required this.hourController, required this.pageDayController}) : super(key: key);
+
+  late ValueNotifier<DateTime> selectedDay;
 
   @override
   Widget build(BuildContext context) {
+    var provider = context.read<WeatherProvider>();
+    selectedDay = provider.selectedDay;
+    
     return Container(
       decoration: BoxDecoration(
       borderRadius: const BorderRadius.vertical(
@@ -46,7 +52,6 @@ class BottomSheetWeather extends StatelessWidget {
           _displayDate(),
           Expanded(
             child: HourlyWeatherList(
-              selectedDay: selectedDay, 
               contextWidth: contextWidth, 
               dayController: dayController, 
               hourListController: hourController, 
