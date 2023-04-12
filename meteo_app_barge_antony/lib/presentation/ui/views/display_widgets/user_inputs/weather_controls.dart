@@ -94,7 +94,10 @@ class _WeatherControlsState extends State<WeatherControls> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(df.format(selectedDay.value), style: UI.DATE_TEXT_STYLE,),
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(df.format(selectedDay.value), style: UI.DATE_TEXT_STYLE,),
+          ),
           ElevatedButton(
             onPressed: () => _selectDate(context),
             child: const Icon(Icons.calendar_month,),
