@@ -20,42 +20,48 @@ import '../../foundation/util/input_converter.dart';
 final currentWeatherSL = GetIt.instance;
 final choosenWeatherSL = GetIt.asNewInstance();
 
-Future<void> init(GetIt serviceLocator) async {
+Future<void> init() async {
   //! Features -Weather
-  serviceLocator.registerFactory(() => WeatherProvider(
-      getWeather: serviceLocator(),
-      getCityFromLatLong: serviceLocator(),
-      getCurrentLocation: serviceLocator(),
-      inputConverter: serviceLocator(),
+  currentWeatherSL.registerFactory(() => WeatherProvider(
+      getWeather: currentWeatherSL(),
+      getCityFromLatLong: currentWeatherSL(),
+      getCurrentLocation: currentWeatherSL(),
+      inputConverter: currentWeatherSL(),
+  ));
+  choosenWeatherSL.registerFactory(() => WeatherProvider(
+      getWeather: currentWeatherSL(),
+      getCityFromLatLong: currentWeatherSL(),
+      getCurrentLocation: currentWeatherSL(),
+      inputConverter: currentWeatherSL(),
   ));
 
   // Use cases
-  serviceLocator.registerLazySingleton(() => GetWeather(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => GetCurrentLocation(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => GetCityLocations(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => GetCityFromLatLong(serviceLocator()));
+  currentWeatherSL.registerLazySingleton(() => GetWeather(currentWeatherSL()));
+  currentWeatherSL.registerLazySingleton(() => GetCurrentLocation(currentWeatherSL()));
+  currentWeatherSL.registerLazySingleton(() => GetCityLocations(currentWeatherSL()));
+  currentWeatherSL.registerLazySingleton(() => GetCityFromLatLong(currentWeatherSL()));
 
   // Repositories
-  serviceLocator.registerLazySingleton<WeatherRepository>(
+  currentWeatherSL.registerLazySingleton<WeatherRepository>(
       () => WeatherRepositoryImpl(
-            weatherAPI: serviceLocator(),
-            networkInfo: serviceLocator(), 
+            weatherAPI: currentWeatherSL(),
+            networkInfo: currentWeatherSL(), 
           ));
-  serviceLocator.registerLazySingleton<LocationRepository>(
+  currentWeatherSL.registerLazySingleton<LocationRepository>(
       () => LocationRepositoryImpl(
-            locationService: serviceLocator(),
+            locationService: currentWeatherSL(),
           ));
   // Data sources
-  serviceLocator.registerLazySingleton<WeatherAPI>(
-      () => WeatherAPIImpl(client: serviceLocator()));
-  serviceLocator.registerLazySingleton<LocationService>(
+  currentWeatherSL.registerLazySingleton<WeatherAPI>(
+      () => WeatherAPIImpl(client: currentWeatherSL()));
+  currentWeatherSL.registerLazySingleton<LocationService>(
       () => LocationServiceImpl());
 
   //! Core
-  serviceLocator.registerLazySingleton(() => InputConverter());
-  serviceLocator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(serviceLocator()));
+  currentWeatherSL.registerLazySingleton(() => InputConverter());
+  currentWeatherSL.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(currentWeatherSL()));
 
   //! External
-  serviceLocator.registerLazySingleton(() => http.Client());
-  serviceLocator.registerLazySingleton(() => InternetConnectionChecker());
+  currentWeatherSL.registerLazySingleton(() => http.Client());
+  currentWeatherSL.registerLazySingleton(() => InternetConnectionChecker());
 }

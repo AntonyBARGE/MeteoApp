@@ -8,8 +8,7 @@ import 'presentation/ui/styles/ui.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await injections.init(injections.currentWeatherSL);
-  await injections.init(injections.choosenWeatherSL);
+  await injections.init();
   initializeDateFormatting();
   runApp(const MyApp());
 }

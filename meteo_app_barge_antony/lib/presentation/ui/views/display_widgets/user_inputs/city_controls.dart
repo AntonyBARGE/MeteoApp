@@ -19,7 +19,7 @@ class CityControls extends StatefulWidget {
 
 class _CityControlsState extends State<CityControls> {
   final TextEditingController cityInputText = TextEditingController();
-  final GetCityLocations getCityLocations = GetCityLocations(choosenWeatherSL());
+  final GetCityLocations getCityLocations = GetCityLocations(currentWeatherSL());
   DateTime selectedDate = DateTime.now();
   List<City> citiesFromInput = [];
 
