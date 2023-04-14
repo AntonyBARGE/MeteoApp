@@ -14,6 +14,8 @@ import 'location_service_test.mocks.dart';
 @GenerateMocks([GeolocatorWrapper])
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockGeolocatorWrapper mockGeolocator;
   late LocationServiceImpl locationService;
 
