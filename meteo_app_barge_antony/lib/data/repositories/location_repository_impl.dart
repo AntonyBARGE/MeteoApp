@@ -12,7 +12,7 @@ class LocationRepositoryImpl implements LocationRepository {
   LocationRepositoryImpl({required this.locationService});
 
   @override
-  Future<Either<Failure, CityModel>>? getCurrentCity() async {
+  Future<Either<Failure, CityModel>> getCurrentCity() async {
     try {
       final CityModel currentCity = await locationService.getCurrentLocationCity();
       return Right(currentCity);
@@ -22,7 +22,7 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<Either<Failure, List<CityModel>>>? getLocationsFromCityName(String cityName) async {
+  Future<Either<Failure, List<CityModel>>> getLocationsFromCityName(String cityName) async {
     try {
       final List<CityModel> currentCities = await locationService.getCitiesFromName(cityName);
       return Right(currentCities);
@@ -32,7 +32,7 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<Either<Failure, CityModel>>? getCityFromLatLong(double latitude, double longitude) async {
+  Future<Either<Failure, CityModel>> getCityFromLatLong(double latitude, double longitude) async {
     try {
       final CityModel currentCity = await locationService.getCityFromLatLong(latitude, longitude);
       return Right(currentCity);

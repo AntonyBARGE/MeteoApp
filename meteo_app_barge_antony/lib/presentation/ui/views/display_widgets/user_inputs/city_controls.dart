@@ -64,7 +64,7 @@ class _CityControlsState extends State<CityControls> {
 
   void _getCitiesFromInput() async {
     var inputs = await getCityLocations(Params(cityName: cityInputText.text));
-    inputs?.fold(
+    inputs.fold(
       (failure) {
         setState(() {
           citiesFromInput = [];

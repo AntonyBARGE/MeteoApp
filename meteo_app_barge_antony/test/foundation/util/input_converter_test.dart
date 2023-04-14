@@ -24,7 +24,7 @@ void main() {
 
     test('should return a Failure when the string is not a number', () async {
       //arrange
-      const str = 'abc';
+      const str = 'a';
       const maxValue = 180.0;
       //act
       final result = inputConverter.stringToDouble(str, maxValue);
@@ -58,7 +58,7 @@ void main() {
 
     test('should return a Failure when the string is not a date', () async {
       //arrange
-      const str = 'abc';
+      const str = 'a';
       //act
       final result = inputConverter.stringToDateTime(str);
       //assert

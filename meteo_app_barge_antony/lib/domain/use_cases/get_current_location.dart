@@ -11,7 +11,7 @@ class GetCurrentLocation implements UseCase<CityEntity, NoParams> {
   GetCurrentLocation(this.repository);
 
   @override
-  Future<Either<Failure, CityEntity>?> call(NoParams params) async {
+  Future<Either<Failure, CityEntity>> call(NoParams params) async {
     return await repository.getCurrentCity();
   }
 }

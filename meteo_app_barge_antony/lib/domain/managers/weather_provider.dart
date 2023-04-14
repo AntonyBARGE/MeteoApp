@@ -31,7 +31,7 @@ class WeatherProvider extends ChangeNotifier {
 
   void changeWeatherFromCity(CityEntity city, DateTime date) async {
     final failureOrWeather = await getWeather(Params(city: city, day: date));
-    failureOrWeather!.fold(
+    failureOrWeather.fold(
       (failure) {
         weatherState = Error(message: _mapFailureToMessage(failure));
         notifyListeners();
@@ -78,7 +78,7 @@ class WeatherProvider extends ChangeNotifier {
 
   void verifyCityThenCall(double verifiedLatitudeDouble, double verifiedLongitudeDouble, DateTime verifiedDayDateTime) async {
     final failureOrCity = await getCityFromLatLong(LocationParams(latitude: verifiedLatitudeDouble, longitude: verifiedLongitudeDouble));
-    failureOrCity!.fold(
+    failureOrCity.fold(
       (failure) {
         weatherState = Error(message: _mapFailureToMessage(failure));
         notifyListeners();
@@ -92,7 +92,7 @@ class WeatherProvider extends ChangeNotifier {
     weatherState = Loading();
     notifyListeners();
     final failureOrCity = await getCurrentLocation(NoParams());
-    failureOrCity!.fold(
+    failureOrCity.fold(
       (failure) {
         weatherState = Error(message: _mapFailureToMessage(failure));
         notifyListeners();

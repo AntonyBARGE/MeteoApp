@@ -12,7 +12,7 @@ class GetCityLocations implements UseCase<List<CityEntity>, Params> {
   GetCityLocations(this.repository);
 
   @override
-  Future<Either<Failure, List<CityEntity>>?> call(Params params) async {
+  Future<Either<Failure, List<CityEntity>>> call(Params params) async {
     return await repository.getLocationsFromCityName(params.cityName);
   }
 }

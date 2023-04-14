@@ -13,7 +13,7 @@ class GetWeather implements UseCase<WeatherEntity, Params> {
   GetWeather(this.repository);
 
   @override
-  Future<Either<Failure, WeatherEntity>?> call(Params params) async {
+  Future<Either<Failure, WeatherEntity>> call(Params params) async {
     return await repository.getWeather(params.city, params.day);
   }
 }

@@ -12,7 +12,7 @@ class GetCityFromLatLong implements UseCase<CityEntity, LocationParams> {
   GetCityFromLatLong(this.repository);
 
   @override
-  Future<Either<Failure, CityEntity>?> call(LocationParams params) async {
+  Future<Either<Failure, CityEntity>> call(LocationParams params) async {
     return await repository.getCityFromLatLong(params.latitude, params.longitude);
   }
 }

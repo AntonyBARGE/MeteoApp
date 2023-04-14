@@ -3,14 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:meteo_app_barge_antony/data/models/weather_model.dart' as _i5;
+import 'package:meteo_app_barge_antony/data/models/weather_model.dart' as _i2;
 import 'package:meteo_app_barge_antony/data/resources/remote/weather_api.dart'
-    as _i4;
+    as _i5;
 import 'package:meteo_app_barge_antony/domain/entities/city_entity.dart' as _i6;
 import 'package:meteo_app_barge_antony/foundation/network/network_info.dart'
-    as _i2;
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -24,39 +24,61 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeWeatherModel_0 extends _i1.SmartFake implements _i2.WeatherModel {
+  _FakeWeatherModel_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i2.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i3.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<bool> get isConnected => (super.noSuchMethod(
+  _i4.Future<bool> get isConnected => (super.noSuchMethod(
         Invocation.getter(#isConnected),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 }
 
 /// A class which mocks [WeatherAPI].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockWeatherAPI extends _i1.Mock implements _i4.WeatherAPI {
+class MockWeatherAPI extends _i1.Mock implements _i5.WeatherAPI {
   MockWeatherAPI() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i5.WeatherModel>? getWeather(
+  _i4.Future<_i2.WeatherModel> getWeather(
     _i6.CityEntity? city,
     DateTime? day,
   ) =>
-      (super.noSuchMethod(Invocation.method(
-        #getWeather,
-        [
-          city,
-          day,
-        ],
-      )) as _i3.Future<_i5.WeatherModel>?);
+      (super.noSuchMethod(
+        Invocation.method(
+          #getWeather,
+          [
+            city,
+            day,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.WeatherModel>.value(_FakeWeatherModel_0(
+          this,
+          Invocation.method(
+            #getWeather,
+            [
+              city,
+              day,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.WeatherModel>);
 }

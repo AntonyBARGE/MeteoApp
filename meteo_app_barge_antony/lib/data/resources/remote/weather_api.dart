@@ -10,7 +10,7 @@ import '../../models/weather_model.dart';
 
 
 abstract class WeatherAPI {
-  Future<WeatherModel>? getWeather(CityEntity city, DateTime day);
+  Future<WeatherModel> getWeather(CityEntity city, DateTime day);
 }
 
 class WeatherAPIImpl implements WeatherAPI {
@@ -29,7 +29,7 @@ class WeatherAPIImpl implements WeatherAPI {
   }
 
   @override
-  Future<WeatherModel>? getWeather(CityEntity city, DateTime day) {
+  Future<WeatherModel> getWeather(CityEntity city, DateTime day) {
     final df = DateFormat('yyyy-MM-dd');
     final dayInUrl = df.format(day);
     final endDayInUrl = df.format(day.add(const Duration(days: 7)));

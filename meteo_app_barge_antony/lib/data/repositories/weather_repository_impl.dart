@@ -21,7 +21,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
   Future<Either<Failure, WeatherEntity>> getWeather(CityEntity city, DateTime day) async {
     if (await networkInfo.isConnected) {
       try {
-        final weatherFromAPI = await weatherAPI.getWeather(city, day)!;
+        final weatherFromAPI = await weatherAPI.getWeather(city, day);
         return Right(weatherFromAPI);
       } on ServerException {
         return Left(ServerFailure());
