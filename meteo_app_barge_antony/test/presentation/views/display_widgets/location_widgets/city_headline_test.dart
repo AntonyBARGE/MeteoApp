@@ -46,8 +46,13 @@ void main() {
   group('CityHeadline should render correctly', () {
     const String cityName = 'Villeurbanne';
     testWidgets('CityHeadline should render correctly with location pin if it is the first page', (WidgetTester tester) async {
+      //arange
       const bool isAllowingLocationChange = false;
+      final locationIconFinder = find.byIcon(Icons.location_on);
+      final editIconFinder = find.byIcon(Icons.edit);
+      final cityNameFinder = find.text(cityName);
 
+      //act
       await tester.pumpWidget(
         const MaterialApp(
           home: CityHeadline(
@@ -57,18 +62,20 @@ void main() {
         ),
       );
 
-      final locationIconFinder = find.byIcon(Icons.location_on);
-      final editIconFinder = find.byIcon(Icons.edit);
-      final cityNameFinder = find.text(cityName);
-
+      //assert
       expect(locationIconFinder, findsOneWidget);
       expect(editIconFinder, findsNothing);
       expect(cityNameFinder, findsOneWidget);
     });
 
     testWidgets('CityHeadline should render correctly with edit pen if it is the second page', (WidgetTester tester) async {
+      //arange
       const bool isAllowingLocationChange = true;
+      final locationIconFinder = find.byIcon(Icons.location_on);
+      final editIconFinder = find.byIcon(Icons.edit);
+      final cityNameFinder = find.text(cityName);
 
+      //act
       await tester.pumpWidget(
         const MaterialApp(
           home: CityHeadline(
@@ -78,18 +85,18 @@ void main() {
         ),
       );
 
-      final locationIconFinder = find.byIcon(Icons.location_on);
-      final editIconFinder = find.byIcon(Icons.edit);
-      final cityNameFinder = find.text(cityName);
-
+      //assert
       expect(locationIconFinder, findsNothing);
       expect(editIconFinder, findsOneWidget);
       expect(cityNameFinder, findsOneWidget);
     });
 
     testWidgets('CityHeadline should do nothing on tap on first page', (WidgetTester tester) async {
+      //arange
       const bool isAllowingLocationChange = false;
+      final headlineFinder = find.byType(CityHeadline);
 
+      //act
       await tester.pumpWidget(
         MultiProvider(
           providers: [
@@ -105,18 +112,20 @@ void main() {
           ),
         ),
       );
-
-      final headlineFinder = find.byType(CityHeadline);
-
-      expect(headlineFinder, findsOneWidget);
       await tester.tap(headlineFinder);
       await tester.pump();
+
+      //assert
+      expect(headlineFinder, findsOneWidget);
       expect(weatherProvider.currentWeatherState, isInstanceOf<Loaded>());
     });
 
     testWidgets('CityHeadline should empty weather state on tap on second page', (WidgetTester tester) async {
+      //arange
       const bool isAllowingLocationChange = true;
+      final headlineFinder = find.byType(CityHeadline);
 
+      //act
       await tester.pumpWidget(
         MultiProvider(
           providers: [
@@ -132,10 +141,10 @@ void main() {
           ),
         ),
       );
-
-      final headlineFinder = find.byType(CityHeadline);
       await tester.tap(headlineFinder);
       await tester.pump();
+
+      //assert
       expect(weatherProvider.currentWeatherState, Empty());
     });
   });

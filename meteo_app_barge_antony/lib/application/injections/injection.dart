@@ -24,17 +24,9 @@ final choosenWeatherSL = GetIt.asNewInstance();
 Future<void> init() async {
   //! Features -Weather
   currentWeatherSL.registerFactory(() => WeatherProvider(
-      getWeather: currentWeatherSL(),
-      getCityFromLatLong: currentWeatherSL(),
-      getCurrentLocation: currentWeatherSL(),
-      inputConverter: currentWeatherSL(),
       selectedDay: ValueNotifier<DateTime>(DateTime.now()),
   ));
   choosenWeatherSL.registerFactory(() => WeatherProvider(
-      getWeather: currentWeatherSL(),
-      getCityFromLatLong: currentWeatherSL(),
-      getCurrentLocation: currentWeatherSL(),
-      inputConverter: currentWeatherSL(),
       selectedDay: ValueNotifier<DateTime>(DateTime.now()),
   ));
 

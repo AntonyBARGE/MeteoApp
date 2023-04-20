@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../application/config/constants.dart';
+import '../../application/injections/injection.dart';
 import '../../foundation/error/failures.dart';
 import '../../foundation/util/input_converter.dart';
 import '../entities/city_entity.dart';
@@ -12,22 +13,26 @@ import '../use_cases/get_weather.dart';
 import '../use_cases/usecase.dart';
 
 class WeatherProvider extends ChangeNotifier {
-  final GetWeather getWeather;
-  final GetCityFromLatLong getCityFromLatLong;
-  final GetCurrentLocation getCurrentLocation;
-  final InputConverter inputConverter;
   final ValueNotifier<DateTime> selectedDay;
+  GetWeather getWeather;
+  InputConverter inputConverter;
+  GetCityFromLatLong getCityFromLatLong;
+  GetCurrentLocation getCurrentLocation;
+  
   WeatherState weatherState = Empty();
 
   WeatherState get currentWeatherState => weatherState;
 
   WeatherProvider({
-    required this.getWeather,
-    required this.getCityFromLatLong,
-    required this.getCurrentLocation,
-    required this.inputConverter,
-    required this.selectedDay
-  });
+    required this.selectedDay,
+    GetWeather? getWeather,
+    InputConverter? inputConverter,
+    GetCityFromLatLong? getCityFromLatLong,
+    GetCurrentLocation? getCurrentLocation
+  }) : getWeather = getWeather ?? GetWeather(currentWeatherSL()),
+       getCityFromLatLong = getCityFromLatLong ?? GetCityFromLatLong(currentWeatherSL()),
+       getCurrentLocation = getCurrentLocation ?? GetCurrentLocation(currentWeatherSL()),
+       inputConverter = inputConverter ?? currentWeatherSL();
 
   void changeWeatherFromCity(CityEntity city, DateTime date) async {
     final failureOrWeather = await getWeather(Params(city: city, day: date));

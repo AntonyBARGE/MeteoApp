@@ -17,7 +17,7 @@ class CityHeadline extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           if (isAllowingLocationChange) {
-            _emptyWeatherState(context);
+            emptyWeatherState(context);
           }
         },
         child: Row(
@@ -39,7 +39,7 @@ class CityHeadline extends StatelessWidget {
     );
   }
 
-  void _emptyWeatherState(BuildContext context) {
+  void emptyWeatherState(BuildContext context) {
     var provider = context.read<WeatherProvider>();
     provider.setToEmpty();
   }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
@@ -46,7 +47,8 @@ void main() {
       getCityFromLatLong: mockGetCityFromLatLong, 
       getCurrentLocation: mockGetCurrentLocation,
       inputConverter: mockInputConverter,
-      selectedDay: ValueNotifier<DateTime>(DateTime(2023, 3, 30)));
+      selectedDay: ValueNotifier<DateTime>(DateTime(2023, 3, 30))
+    );
   });
 
   group('changeWeatherFromCity', () {
@@ -59,14 +61,23 @@ void main() {
     );
     final tDay = DateTime(2023, 3, 30);
     test('should return Loaded state when changeWeatherFromCity is successful', () async {
-      //arrange
-      when(mockWeatherRepository.getWeather(tCityEntity, tDay))
+      // arrange
+      when(mockGetWeather(Params(city: tCityEntity, day: tDay)))
           .thenAnswer((_) async => Right(tWeatherModel));
-      //act
+
+      // act
       weatherProvider.changeWeatherFromCity(tCityEntity, tDay);
-      //assert
-      verify(mockWeatherRepository.getWeather(tCityEntity, tDay));
-      expect(weatherProvider.currentWeatherState, Loaded(weather: tWeatherEntity, city: tCityEntity));
+
+      // assert
+      verify(mockWeatherRepository.getWeather(tCityEntity, tDay)).called(1);
+
+      final loadedStateCompleter = Completer();
+      Future.delayed(const Duration(seconds: 2), () {
+        expect(weatherProvider.currentWeatherState, Loaded(weather: tWeatherEntity, city: tCityEntity));
+        loadedStateCompleter.complete();
+      });
+
+      await loadedStateCompleter.future;
     });
 
     test('should return Error state when changeWeatherFromCity fails', () async {
@@ -76,20 +87,19 @@ void main() {
       //act
       weatherProvider.changeWeatherFromCity(tCityEntity, tDay);
       //assert
-      expect(weatherProvider.currentWeatherState,
-          const Error(message: Constants.SERVER_FAILURE_MESSAGE));
+      final loadedStateCompleter = Completer();
+      Future.delayed(const Duration(seconds: 2), () {
+        expect(weatherProvider.currentWeatherState, const Error(message: Constants.SERVER_FAILURE_MESSAGE));
+        loadedStateCompleter.complete();
+      });
+
+      await loadedStateCompleter.future;
     });
   });
 
   group('verifyInputThenCall', () {
-    WeatherEntity tWeatherEntity = WeatherModel.fromJson(json.decode(fixture('weather.json')));
     const tLongitudeString = '4.8799996';
     const tLatitudeString = '45.78';
-    const tCityEntity = CityEntity(
-      cityName: "Villeurbanne",
-      longitude: 4.8799996,
-      latitude: 45.78,
-    );
     final tDayString = DateTime(2023, 3, 30).toString();
     test('should call verifyCityThenCall when verification is successful', () async {
       //arrange
@@ -100,10 +110,11 @@ void main() {
           .thenAnswer((_) =>  const Right(4.8799996));
       when(mockInputConverter.stringToDateTime(tDayString))
           .thenAnswer((_) =>  Right(DateTime(2023, 3, 30)));
+
       //act
       weatherProvider.verifyInputThenCall(tInputs);
       //assert
-      verify(weatherProvider.verifyCityThenCall(45.78, 4.8799996, DateTime(2023, 3, 30)));
+      verify(weatherProvider.verifyCityThenCall(45.78, 4.8799996, DateTime(2023, 3, 30))).called(1);
     });
 
     test('should return Error state when latStringToDouble fails', () async {
@@ -112,37 +123,64 @@ void main() {
       final tInputs = GetWeatherForLatAndLon(tIncorrectLatitudeString, tLongitudeString, tDayString);
       when(mockInputConverter.latStringToDouble(tIncorrectLatitudeString))
           .thenAnswer((_) => Left(InvalidInputFailure()));
+      when(mockInputConverter.longStringToDouble(tLongitudeString))
+          .thenAnswer((_) =>  const Right(4.8799996));
+      when(mockInputConverter.stringToDateTime(tDayString))
+          .thenAnswer((_) =>  Right(DateTime(2023, 3, 30)));
       //act
       weatherProvider.verifyInputThenCall(tInputs);
       //assert
-      expect(weatherProvider.currentWeatherState,
-          const Error(message: Constants.INVALID_LATITUDE_INPUT_FAILURE_MESSAGE));
+      final loadedStateCompleter = Completer();
+      Future.delayed(const Duration(seconds: 2), () {
+        expect(weatherProvider.currentWeatherState, const Error(message: Constants.INVALID_LATITUDE_INPUT_FAILURE_MESSAGE));
+        loadedStateCompleter.complete();
+      });
+
+      await loadedStateCompleter.future;
     });
 
     test('should return Error state when longStringToDouble fails', () async {
       //arrange
       const tIncorrectLongitudeString = 'a';
       final tInputs = GetWeatherForLatAndLon(tLatitudeString, tIncorrectLongitudeString, tDayString);
+      when(mockInputConverter.latStringToDouble(tLatitudeString))
+          .thenAnswer((_) =>  const Right(45.78));
       when(mockInputConverter.longStringToDouble(tIncorrectLongitudeString))
           .thenAnswer((_) => Left(InvalidInputFailure()));
+          when(mockInputConverter.stringToDateTime(tDayString))
+          .thenAnswer((_) =>  Right(DateTime(2023, 3, 30)));
       //act
       weatherProvider.verifyInputThenCall(tInputs);
       //assert
-      expect(weatherProvider.currentWeatherState,
-          const Error(message: Constants.INVALID_LONGITUDE_INPUT_FAILURE_MESSAGE));
+      final loadedStateCompleter = Completer();
+      Future.delayed(const Duration(seconds: 2), () {
+        expect(weatherProvider.currentWeatherState, const Error(message: Constants.INVALID_LONGITUDE_INPUT_FAILURE_MESSAGE));
+        loadedStateCompleter.complete();
+      });
+
+      await loadedStateCompleter.future;
     });
 
-    test('should return Error state when latStringToDouble fails', () async {
+    test('should return Error state when stringToDateTime fails', () async {
       //arrange
       const tIncorrectDayString = 'a';
       const tInputs = GetWeatherForLatAndLon(tLatitudeString, tLongitudeString, tIncorrectDayString);
+      when(mockInputConverter.latStringToDouble(tLatitudeString))
+          .thenAnswer((_) =>  const Right(45.78));
+      when(mockInputConverter.longStringToDouble(tLongitudeString))
+          .thenAnswer((_) =>  const Right(4.8799996));
       when(mockInputConverter.stringToDateTime(tIncorrectDayString))
           .thenAnswer((_) => Left(InvalidInputFailure()));
       //act
       weatherProvider.verifyInputThenCall(tInputs);
       //assert
-      expect(weatherProvider.currentWeatherState,
-          const Error(message: Constants.INVALID_DAY_INPUT_FAILURE_MESSAGE));
+      final loadedStateCompleter = Completer();
+      Future.delayed(const Duration(seconds: 2), () {
+        expect(weatherProvider.currentWeatherState, const Error(message: Constants.INVALID_DAY_INPUT_FAILURE_MESSAGE));
+        loadedStateCompleter.complete();
+      });
+
+      await loadedStateCompleter.future;
     });
   });
 }
